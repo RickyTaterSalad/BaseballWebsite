@@ -1,0 +1,37 @@
+  h1, h2, .exported-note-title{
+	 color: white;
+	 font-weight: bold;
+}
+ body{
+	 background: #1D1E22;
+	 color: white;
+}
+ a {
+	 color: white;
+}
+ table td{
+	 color: white;
+}
+ table tr:nth-child(even){
+	 background: #2A3338;
+	 color: white;
+}
+ table tr:nth-child(odd){
+	 background: #3D4449;
+	 color: white;
+}
+ thead tr th{
+	 background: #2A3338;
+	 color: white;
+}
+ strong{
+	 font-weight: normal;
+}
+ h1{
+	 margin-top: 30px;
+	 border-bottom: 0;
+}
+ table td, table th{
+	 border: 1px solid gray;
+}
+
