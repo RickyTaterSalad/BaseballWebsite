@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Jaxx Fundraiser - Interactive Theme</title>
+    <title>Diamond Jaxx 10U Super Bowl Fundraiser</title>
     <style>
-        /* Theme Variables */
         :root {
             --grid-size: 72vh; 
             --standard-num-size: 2.5vw;
             --small-num-size: 1.25vw;
-            
-            /* Dark Theme Defaults */
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --grid-border: #333;
@@ -21,7 +18,6 @@
             --accent-green: #4ade80;
         }
 
-        /* Light Theme Overrides */
         [data-theme="light"] {
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
@@ -39,7 +35,7 @@
             justify-content: flex-start; 
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             background-color: var(--bg-color);
             font-family: 'Segoe UI', Roboto, sans-serif;
             box-sizing: border-box;
@@ -47,11 +43,21 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Styled Toggle Switch */
+        .main-title {
+            font-size: clamp(18px, 4vw, 32px);
+            font-weight: normal; 
+            color: var(--text-main);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 0 40px; 
+            letter-spacing: 1px;
+        }
+
         .theme-switch-wrapper {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             display: flex;
             align-items: center;
             z-index: 100;
@@ -59,82 +65,60 @@
 
         .theme-switch {
             display: inline-block;
-            height: 28px;
+            height: 24px;
             position: relative;
-            width: 50px;
+            width: 44px;
         }
 
         .theme-switch input { display: none; }
 
         .slider {
             background-color: #444;
-            bottom: 0;
-            cursor: pointer;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: .4s;
-            border-radius: 34px;
+            bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
+            transition: .4s; border-radius: 34px;
         }
 
         .slider:before {
             background-color: #fff;
-            bottom: 4px;
-            content: "";
-            height: 20px;
-            left: 4px;
-            position: absolute;
-            transition: .4s;
-            width: 20px;
-            border-radius: 50%;
+            bottom: 3px; content: ""; height: 18px; left: 3px; position: absolute;
+            transition: .4s; width: 18px; border-radius: 50%;
         }
 
         input:checked + .slider { background-color: var(--accent-green); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         .toggle-label {
-            margin-right: 10px;
-            font-size: 14px;
+            margin-right: 8px;
+            font-size: 10px;
             color: var(--text-dim);
         }
 
-        /* Content Layout */
-        .main-title {
-            font-size: clamp(18px, 4vw, 32px);
-            font-weight: normal; 
-            color: var(--text-main);
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 0 60px; 
-            letter-spacing: 1px;
-        }
-
         .header-info {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: clamp(11px, 1.2vw, 15px);
-            line-height: 1.5;
+            position: absolute; 
+            top: 15px;
+            left: 15px;
+            /* Key Change: Box fits text size instead of stretching */
+            width: fit-content; 
+            max-width: calc(100% - 30px);
+            font-size: clamp(10px, 1.2vw, 15px);
+            line-height: 1.4;
             color: var(--text-main);
             white-space: pre-line; 
             background: var(--card-bg);
             padding: 12px;
             border-radius: 6px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-left: 4px solid var(--accent-green);
+            border-left: 3px solid var(--accent-green);
             z-index: 10;
         }
 
-        /* Style specifically for the price line */
         .price-highlight {
             font-weight: bold;
             color: var(--accent-green);
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             border-bottom: 1px solid var(--grid-border);
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
         .outer-wrapper {
@@ -147,25 +131,25 @@
             gap: 1vw;
             align-items: center;
             justify-items: center;
-            width: 95vw;
+            width: 100%;
             max-width: var(--grid-size);
-            margin-top: 10px; 
+            margin-top: 20px;
         }
 
         .label-top {
             grid-area: top-label;
-            font-size: clamp(16px, 3.5vw, 32px);
+            font-size: clamp(12px, 3.5vw, 32px);
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             color: var(--text-dim);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .label-left {
             grid-area: left-label;
-            font-size: clamp(16px, 3.5vw, 32px);
+            font-size: clamp(12px, 3.5vw, 32px);
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             color: var(--text-dim);
             writing-mode: vertical-rl;
             transform: rotate(180deg);
@@ -180,7 +164,7 @@
             width: 100%;
             aspect-ratio: 1 / 1;
             background-color: var(--grid-border);
-            border: 2px solid var(--grid-border);
+            border: 1.5px solid var(--grid-border);
         }
 
         .grid-item {
@@ -193,7 +177,6 @@
             font-weight: bold;
             color: var(--text-main);
             text-align: center;
-            transition: background-color 0.2s;
         }
 
         .has-data .square-number {
@@ -205,9 +188,32 @@
             display: block;
             font-weight: 700;
             color: var(--accent-green);
-            line-height: 1.1;
-            margin-top: 2px;
+            line-height: 1;
+            margin-top: 1px;
             font-size: 1vw; 
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --grid-size: 92vw;
+                --standard-num-size: 4vw;
+                --small-num-size: 2.2vw;
+            }
+            .main-title { display: none; } 
+
+            .header-info {
+                position: relative; 
+                top: 0;
+                left: 0;
+                /* Keeps it tidy on mobile */
+                width: fit-content; 
+                margin-bottom: 20px;
+                box-sizing: border-box;
+                align-self: flex-start;
+            }
+
+            .outer-wrapper { margin-top: 10px; }
+            .data-text { font-size: 1.8vw; }
         }
 
         @media (min-width: 1000px) {
@@ -215,17 +221,12 @@
             .has-data .square-number { font-size: 13px; }
             .data-text { font-size: 10px; }
         }
-
-        @media (max-width: 1100px) {
-            .header-info { position: relative; top: 0; left: 0; margin-bottom: 20px; align-self: flex-start; }
-            .theme-switch-wrapper { top: 10px; right: 10px; }
-        }
     </style>
 </head>
 <body data-theme="dark">
 
     <div class="theme-switch-wrapper">
-        <span class="toggle-label">LIGHT MODE</span>
+        <span class="toggle-label">LIGHT</span>
         <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox" />
             <div class="slider"></div>
@@ -234,44 +235,26 @@
 
     <div class="header-info" id="header-text"></div>
 
-    <h1 class="main-title">Diamond Jaxx Select 10u Super Bowl Squares Fundraiser</h1>
+    <h1 class="main-title">Diamond Jaxx Select 10U Super Bowl Fundraiser</h1>
 
     <div class="outer-wrapper">
-        <div class="label-top">Favorite</div>
-        <div class="label-left">Underdog</div>
+        <div class="label-top">AFC Champ</div>
+        <div class="label-left">NFC Champ</div>
         <div class="grid-container" id="grid"></div>
     </div>
 
     <script>
         const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
         function switchTheme(e) {
-            if (e.target.checked) {
-                document.body.setAttribute('data-theme', 'light');
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-            }    
+            document.body.setAttribute('data-theme', e.target.checked ? 'light' : 'dark');
         }
         toggleSwitch.addEventListener('change', switchTheme, false);
 
-        // Updated text with $25 per square at the beginning
         const rawText = "$25 Per Square, Quarter 1: $200, Quarter 2: $200, Quarter 3: $200, Final: $400";
-        
-        // Formatter that converts commas to new lines
         const formattedLines = rawText.split(',').map(item => item.trim());
-        const headerContainer = document.getElementById('header-text');
-        
-        // Build the HTML for the header to allow specific styling for the first line
-        headerContainer.innerHTML = `<span class="price-highlight">${formattedLines[0]}</span>` + 
-                                     formattedLines.slice(1).join('\n');
+        document.getElementById('header-text').innerHTML = `<span class="price-highlight">${formattedLines[0]}</span>` + formattedLines.slice(1).join('\n');
 
-        const squareData = {
-		/*
-            1: "START",
-            50: "HALFTIME",
-            100: "FINAL"
-			*/
-        };
-
+        const squareData = { /*1: "START", 50: "HALFTIME", 100: "FINAL"*/ };
         const grid = document.getElementById('grid');
         for (let i = 1; i <= 100; i++) {
             const square = document.createElement('div');
