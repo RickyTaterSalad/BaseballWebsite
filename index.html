@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diamond Jaxx 10U Super Bowl Fundraiser</title>
     <style>
         :root {
@@ -78,12 +78,11 @@
             grid-template-areas: 
                 "info      top-label"
                 "left-label grid";
-            /* Changed to auto to pull label closer to grid */
             grid-template-columns: auto 1fr; 
             grid-template-rows: auto 1fr;
             width: 95vw;
             max-width: 900px;
-            gap: 4px; /* Reduced gap overall */
+            gap: 4px; 
             margin-top: 10px;
         }
 
@@ -107,8 +106,8 @@
             font-weight: bold;
             color: var(--text-dim);
             text-transform: uppercase;
-            justify-self: end; /* Align to the right of its cell (closest to grid) */
-            margin-right: 8px; /* Control the exact distance from grid */
+            justify-self: end; 
+            margin-right: 8px; 
         }
 
         .grid-container {
@@ -269,7 +268,7 @@
         const formattedLines = rawText.split(',').map(item => item.trim());
         document.getElementById('header-text').innerHTML = `<span class="price-highlight">${formattedLines[0]}</span>` + formattedLines.slice(1).join('<br>');
 
-        const headerData = {/*"row-1": "0", "col-2": "5"*/}; 
+        const headerData = {}; 
 
         const squareData = { 25: "Matt Mammone", 70: "Matt Mammone", 23: "Ethan Rivera" };
 
