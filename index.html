@@ -266,7 +266,29 @@
         const formattedLines = rawText.split(',').map(item => item.trim());
         document.getElementById('header-text').innerHTML = `<span class="price-highlight">${formattedLines[0]}</span>` + formattedLines.slice(1).join('<br>');
 
-        const headerData = {}; 
+        const headerData = {
+		"row-1": "0",
+		"row-2": "1",
+		"row-3": "6",
+		"row-4": "9",
+		"row-5": "8",
+		"row-6": "7",
+		"row-7": "2",
+		"row-8": "5",
+		"row-9": "3",
+		"row-10": "4",
+		
+		"col-1": "1",
+		"col-2": "8",
+		"col-3": "2",
+		"col-4": "6",
+		"col-5": "3",
+		"col-6": "4",
+		"col-7": "9",
+		"col-8": "0",
+		"col-9": "5",
+		"col-10": "7"
+		}; 
 
        const squareData = {
 		  1: "Veronica (SL)",
