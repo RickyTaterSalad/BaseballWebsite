@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Jaxx 10U Super Bowl Fundraiser</title>
+    <style>
+        :root {
+            --grid-size: min(75vh, 95vw); 
+            --standard-num-size: 2.5vw;
+            --small-num-size: 1.2vw;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --grid-border: #333;
+            --cell-bg: #252525;
+            --text-main: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --accent-green: #4ade80;
+            --accent-blue: #3b82f6;
+            --disabled-bg: #1a1a1a;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --grid-border: #333;
+            --cell-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-dim: #555555;
+            --accent-green: #15803d; 
+            --accent-blue: #2563eb;
+            --disabled-bg: #e5e5e5;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .main-title {
+            font-size: clamp(16px, 4vw, 28px);
+            margin: 10px 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .header-info {
+            grid-area: info;
+            font-size: clamp(9px, 1.1vw, 13px);
+            background: var(--card-bg);
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent-green);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 5px;
+            align-self: end;
+            width: fit-content;
+        }
+
+        .price-highlight {
+            font-weight: bold;
+            color: var(--accent-green);
+            border-bottom: 1px solid var(--grid-border);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .outer-wrapper {
+            display: grid;
+            grid-template-areas: 
+                "info      top-label"
+                "left-label grid";
+            grid-template-columns: auto 1fr; 
+            grid-template-rows: auto 1fr;
+            width: 95vw;
+            max-width: 900px;
+            gap: 4px; 
+            margin-top: 10px;
+        }
+
+        .label-top {
+            grid-area: top-label;
+            text-align: center;
+            font-size: clamp(12px, 2vw, 24px);
+            font-weight: bold;
+            color: var(--text-dim);
+            align-self: center;
+            margin-bottom: 4px;
+        }
+
+        .label-left {
+            grid-area: left-label;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-align: center;
+            font-size: clamp(12px, 2vw, 24px);
+            font-weight: bold;
+            color: var(--text-dim);
+            justify-self: end; 
+            margin-right: 8px; 
+        }
+
+        .grid-container {
+            grid-area: grid;
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            grid-template-rows: repeat(11, 1fr);
+            gap: 1px;
+            background-color: var(--grid-border);
+            border: 1px solid var(--grid-border);
+            aspect-ratio: 1/1;
+        }
+
+        .grid-item {
+            background-color: var(--cell-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .corner-cell {
+            background-color: var(--disabled-bg);
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,0.1) 5px, rgba(0,0,0,0.1) 10px);
+        }
+
+        .square-number {
+            font-size: var(--standard-num-size);
+            font-weight: bold;
+        }
+
+        .has-data .square-number {
+            font-size: var(--small-num-size);
+            color: var(--text-dim);
+            margin-bottom: 1px;
+        }
+
+        .data-text {
+            color: var(--accent-green);
+            font-weight: bold;
+            font-size: calc(var(--standard-num-size) * 0.45);
+            line-height: 1;
+            text-align: center;
+            padding: 0 2px;
+            word-break: break-word;
+        }
+
+        .header-val {
+            color: var(--accent-blue);
+            font-size: var(--standard-num-size);
+            font-weight: bold;
+        }
+
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+        }
+
+        .theme-switch {
+            width: 40px;
+            height: 20px;
+            background: #444;
+            display: block;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .theme-switch input { display: none; }
+
+        .slider {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider {
+            left: 22px;
+            background: var(--accent-green);
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --standard-num-size: 3.5vw;
+                --small-num-size: 2vw;
+            }
+            .main-title {
+                display: none;
+            }
+            .outer-wrapper {
+                grid-template-columns: auto 1fr;
+                grid-template-areas: 
+                    "info info"
+                    ". top-label"
+                    "left-label grid";
+                gap: 2px;
+            }
+            .header-info {
+                margin-left: 0;
+                margin-right: auto;
+                justify-self: start;
+                width: fit-content;
+                max-width: 95%;
+            }
+            .label-top, .label-left { font-size: 10px; }
+            .label-left { margin-right: 4px; }
+        }
+
+        @media (min-width: 1000px) {
+            :root { --standard-num-size: 22px; --small-num-size: 11px; }
+            .data-text { font-size: 10px; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <div class="theme-switch-wrapper">
+        <span class="toggle-label">LIGHT</span>
+        <label class="theme-switch">
+            <input type="checkbox" id="checkbox">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <h1 class="main-title">Diamond Jaxx Fundraiser</h1>
+
+    <div class="outer-wrapper">
+        <div class="header-info" id="header-text"></div>
+        <div class="label-top">Patriots</div>
+        <div class="label-left">Seahawks</div>
+        <div class="grid-container" id="grid"></div>
+    </div>
+
+    <script>
+        const toggleSwitch = document.getElementById('checkbox');
+        toggleSwitch.addEventListener('change', (e) => {
+            document.body.setAttribute('data-theme', e.target.checked ? 'light' : 'dark');
+        });
+
+        const rawText = "$25 Per Square, Quarter 1: $200, Quarter 2: $200, Quarter 3: $200, Final: $400";
+        const formattedLines = rawText.split(',').map(item => item.trim());
+        document.getElementById('header-text').innerHTML = `<span class="price-highlight">${formattedLines[0]}</span>` + formattedLines.slice(1).join('<br>');
+
+        const headerData = {
+		"row-1": "0",
+		"row-2": "1",
+		"row-3": "6",
+		"row-4": "9",
+		"row-5": "8",
+		"row-6": "7",
+		"row-7": "2",
+		"row-8": "5",
+		"row-9": "3",
+		"row-10": "4",
+		
+		"col-1": "1",
+		"col-2": "8",
+		"col-3": "2",
+		"col-4": "6",
+		"col-5": "3",
+		"col-6": "4",
+		"col-7": "9",
+		"col-8": "0",
+		"col-9": "5",
+		"col-10": "7"
+		}; 
+
+       const squareData = {
+		  1: "Veronica (SL)",
+		  2: "Dylan Herrera (DH)",
+		  3: "Marcus Litch (ML)",
+		  4: "Joey (CC)",
+		  5: "Jessica P (VS)",
+		  6: "Sonia Rios (ML)",
+		  7: "Yvette Camarena (CC)",
+		  8: "Ricky Rivera (ER)",
+		  9: "Jake Olson (JO)",
+		  10: "Ricky Rivera (ER)",
+		  11: "Craig Litch (ML)",
+		  12: "Ricky Rivera (ER)",
+		  13: "Veronica (SL)",
+		  14: "Jessica P (VS)",
+		  15: "Derrick Acosta (DA)",
+		  16: "Lawrence Melendrez (Melendrez)",
+		  17: "Anthony Mousley (Mousley)",
+		  18: "Jake Olson (JO)",
+		  19: "Sal Luna (SL)",
+		  20: "Dylan Herrera (DH)",
+		  21: "Paul Beltran (CC)",
+		  22: "David O(CC)",
+		  23: "Ethan Rivera (ER)",
+		  24: "Avi Cueva (ER)",
+		  25: "Matt Mammone (ER)",
+		  26: "Mark Buie (ER)",
+		  27: "Lenny Conrad (ER)",
+		  28: "Jake Olson (JO)",
+		  29: "Jesse A (DH)",
+		  30: "Violet Sotelo (VS)",
+		  31: "Pat (Mousley)",
+		  32: "Jesse Johnson (ER)",
+		  33: "Sonia Rios (ML)",
+		  34: "Jesse Johnson (ER)",
+		  35: "Lenny Conrad (ER)",
+		  36: "Jesse Johnson (ER)",
+		  37: "Joe Aldor (LS)",
+		  38: "Paul Beltran (CC)",
+		  39: "Tank Lamas (Mousley)",
+		  40: "Jesse A (DH)",
+		  41: "Caleb Camarena (CC)",
+		  42: "Kinah + Izzy (SL)",
+		  43: "Sal Luna (SL)",
+		  44: "Jim Thor (ER)",
+		  45: "Ricky Rivera (ER)",
+		  46: "Craig Litch (ML)",
+		  47: "Unnath Oum (ER)",
+		  48: "Jake Olson (JO)",
+		  49: "Lawrence Melendrez (Melendrez)",
+		  50: "Lenny Conrad (ER)",
+		  51: "Kaleb England (KE)",
+		  52: "Mark Barker (ER)",
+		  53: "Tony Mason (ER)",
+		  54: "Nico Valenzuela (ML)",
+		  55: "Anthony Mousley (Mousley)",
+		  56: "Veronica (SL)",
+		  57: "Lee H (ER)",
+		  58: "John Lamas (Mousley)",
+		  59: "Kaleb England (KE)",
+		  60: "Violet Sotelo (VS)",
+		  61: "Elena (SL)",
+		  62: "Lawrence Melendrez (Melendrez)",
+		  63: "Unnath Oum (ER)",
+		  64: "Nico Valenzuela (ML)",
+		  65: "Lee Her (ER)",
+		  66: "Tony Mason (ER)",
+		  67: "Lenny Conrad (ER)",
+		  68: "Jim Thor (ER)",
+		  69: "Joey (CC)",
+		  70: "Matt Mammone (ER)",
+		  71: "Jackie DelCastillo (ML)",
+		  72: "Avi Cueva (ER)",
+		  73: "Jim Thor (ER)",
+		  74: "Big Rick Rivera (ER)",
+		  75: "Craig Litch (ML)",
+		  76: "Mark Buie (ER)",
+		  77: "Jim Thor (ER)",
+		  78: "Terry Olson (JO)",
+		  79: "Diamond Jaxx 10u (ER)",
+		  80: "Violet Sotelo (VS)",
+		  81: "Chai (CC)",
+		  82: "Terry Olson (JO)",
+		  83: "Kaleb England (KE)",
+		  84: "Lawrence Melendrez (Melendrez)",
+		  85: "Adrian (CC)",
+		  86: "Cassandra Oum (ER)",
+		  87: "Jake Olson (JO)",
+		  88: "Jesse Johnson (ER)",
+		  89: "Diamond Jaxx 10u (ER)",
+		  90: "Violet Sotelo (VS)",
+		  91: "Craig Litch (ML)",
+		  92: "Diamond Jaxx 10u (ER)",
+		  93: "Pat (Mousley)",
+		  94: "Kaleb England (KE)",
+		  95: "Veronica (SL)",
+		  96: "Lawrence Melendrez (Melendrez)",
+		  97: "Anthony Mousley (Mousley)",
+		  98: "Jake Olson (JO)",
+		  99: "Sathya Oum (ER)",
+		  100: "Roman (CC)"
+		};
+
+        const grid = document.getElementById('grid');
+        let squareCounter = 1;
+
+        for (let row = 0; row < 11; row++) {
+            for (let col = 0; col < 11; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-item';
+
+                if (row === 0 && col === 0) {
+                    cell.classList.add('corner-cell');
+                } else if (row === 0) {
+                    const val = headerData[`row-${col}`] || "";
+                    cell.innerHTML = `<div class="header-val">${val}</div>`;
+                } else if (col === 0) {
+                    const val = headerData[`col-${row}`] || "";
+                    cell.innerHTML = `<div class="header-val">${val}</div>`;
+                } else {
+                    if (squareData[squareCounter]) {
+                        cell.classList.add('has-data');
+                        cell.innerHTML = `<div class="square-number"></div><div class="data-text">${squareData[squareCounter]}</div>`;
+                    } else {
+                        cell.innerHTML = `<div class="square-number"></div>`;
+                    }
+                    squareCounter++;
+                }
+                grid.appendChild(cell);
+            }
+        }
+    </script>
+</body>
+</html>
